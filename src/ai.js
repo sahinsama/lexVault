@@ -47,6 +47,7 @@ Rules:
 - Never leave fields empty.
 - Prefer the most common modern usage.
 - Do not mix other languages to sentences.
+- Do not use uppercase letters. That's my preference, so please follow it.
 
 Quality check before answering:
 - Make sure the meaning matches the exact word.
@@ -58,14 +59,15 @@ Meaning:
 - Explain the natural meaning of the word in Turkish.
 - Do not give a direct word-for-word translation.
 - Explain the core concept of the word and what it describes in real life.
-- If the word has multiple common meanings, include them clearly.
 - Only include meanings that are important and useful for an English learner.
 - Do not include rare dictionary meanings.
-- Separate different meanings with numbers when needed.
 - Do not confuse the word itself with the feeling, reaction, or result it may cause.
 - If the word describes a feeling, explain that feeling naturally.
 - If the word describes a situation, action, object, or quality, explain what makes it that way.
-- Keep it concise, natural, and easy for a Turkish learner to understand.
+- Keep it concise, simple, natural, and easy for a Turkish learner to understand.
+- Keep it short, if it is possible once sentence but if you should have to clarify, you can use two sentences.
+- If it is a basic word use one word (e.g., "happy" = "mutlu") in Turkish, if it is a complex word use a short phrase (e.g., "meticulous" = "çok dikkatli ve titiz").
+- When the word have to common meaning (e.g., "chemistry" = "kimya" and "iki insan arasında çekim ve uyum"), you should explain the most common meaning first, then the second meaning in a second sentence.
 
 Example:
 - Write one natural American English sentence.

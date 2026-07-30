@@ -2,10 +2,12 @@ import { useState } from 'react'
 import './App.css'
 import WordCard from './components/WordCard'
 
+
 function App() {
 
   const [word, setWord] = useState("")
   const [result, setResult] = useState(null)
+  const [source, setSource] = useState("");
 
   async function handleAnalyze() {
 
@@ -19,8 +21,9 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          word: word,
-        }),
+        word: word,
+        source: source,
+})
       }
     )
 
@@ -51,6 +54,20 @@ function App() {
           result={result}
         />
       )}
+
+      <input
+  type="text"
+  placeholder="Kelime"
+  value={word}
+  onChange={(e) => setWord(e.target.value)}
+/>
+
+<input
+  type="text"
+  placeholder="Kaynak (opsiyonel)"
+  value={source}
+  onChange={(e) => setSource(e.target.value)}
+/>
 
     </>
   )

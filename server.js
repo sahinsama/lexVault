@@ -5,6 +5,8 @@ const cors = require("cors");
 
 const analyzeWord = require("./src/ai");
 
+const addWord = require("./src/addWord");
+
 const app = express();
 
 app.use(cors());
@@ -15,9 +17,16 @@ app.post("/analyze", async (req, res) => {
 
   try {
 
-    const { word } = req.body;
+    const { word, source } = req.body;
 
     const result = await analyzeWord(word);
+
+await addWord({
+  word: word,
+  ...result,
+  source: source,
+  date: new Date().toISOString().split("T")[0],
+});
 
     res.json(result);
 
