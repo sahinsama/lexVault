@@ -46,7 +46,7 @@ Rules:
 - Never add explanations outside JSON.
 - Never leave fields empty.
 - Prefer the most common modern usage.
-- Do not mix other languages to sentences.
+- DO NOT USE ANY OTHER LANGUAGE IN TURKISH FIELDS, NEVER.
 - Do not use uppercase letters. That's my preference, so please follow it.
 
 Quality check before answering:
