@@ -66,6 +66,7 @@ Meaning:
 - If the word describes a situation, action, object, or quality, explain what makes it that way.
 - Keep it concise, simple, natural, and easy for a Turkish learner to understand.
 - Keep it short, if it is possible once sentence but if you should have to clarify, you can use two sentences.
+- When the word has one word to one word meaning in Turkish, use that.
 - If it is a basic word use one word (e.g., "happy" = "mutlu") in Turkish, if it is a complex word use a short phrase (e.g., "meticulous" = "çok dikkatli ve titiz").
 - When the word have to common meaning (e.g., "chemistry" = "kimya" and "iki insan arasında çekim ve uyum"), you should explain the most common meaning first, then the second meaning in a second sentence.
 
