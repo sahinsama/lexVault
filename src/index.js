@@ -1,3 +1,4 @@
+require('dns').setDefaultResultOrder('ipv4first');
 const { getWordData, closeInput } = require("./input");
 
 const analyzeWord = require("./ai");

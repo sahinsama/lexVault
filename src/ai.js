@@ -1,29 +1,52 @@
 require("dotenv").config();
 
-const Groq = require("groq-sdk");
+const { GoogleGenerativeAI, SchemaType } = require("@google/generative-ai");
 
-const client = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 
-async function analyzeWord(word) {
-
-  const response = await client.chat.completions.create({
-
-    model: "llama-3.3-70b-versatile",
-
-    response_format: {
-      type: "json_object",
+const responseSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    meaning: { type: SchemaType.STRING },
+    example: { type: SchemaType.STRING },
+    notes: { type: SchemaType.STRING },
+    type: {
+      type: SchemaType.STRING,
+      enum: [
+        "noun",
+        "verb",
+        "adjective",
+        "adverb",
+        "preposition",
+        "conjunction",
+        "pronoun",
+        "interjection",
+        "phrasal verb",
+        "idiom",
+        "phrase",
+      ],
     },
+    level: {
+      type: SchemaType.STRING,
+      enum: ["A1", "A2", "B1", "B2", "C1", "C2"],
+    },
+    pronunciation: { type: SchemaType.STRING },
+    language: { type: SchemaType.STRING },
+  },
+  required: [
+    "meaning",
+    "example",
+    "notes",
+    "type",
+    "level",
+    "pronunciation",
+    "language",
+  ],
+};
 
 
-    messages: [
-
-      {
-        role: "system",
-
-        content: `
+const SYSTEM_PROMPT = `
 You are an expert English lexicographer and language teacher.
 
 Your goal is to help a Turkish English learner deeply understand ONE English word or phrase.
@@ -53,7 +76,6 @@ Quality check before answering:
 - Make sure the meaning matches the exact word.
 - Do not confuse the word with synonyms.
 - Make sure the example uses the word naturally.
-
 
 Meaning:
 - Explain the natural meaning of the word in Turkish.
@@ -99,7 +121,6 @@ Choose exactly one:
 - idiom
 - phrase
 
-
 Level:
 Choose exactly one:
 - A1
@@ -108,7 +129,6 @@ Choose exactly one:
 - B2
 - C1
 - C2
-
 
 Pronunciation:
 - Return IPA pronunciation only.
@@ -122,44 +142,33 @@ Language safety rules:
 - Never output Chinese characters, Japanese characters, Korean characters, Cyrillic characters, Arabic script, or any non-Latin foreign characters in Turkish fields.
 - Never accidentally copy words from other languages.
 - Before returning the JSON, scan the entire response and remove any unexpected foreign characters.
+`;
 
 
-Return exactly this JSON structure:
-
-{
-  "meaning": "",
-  "example": "",
-  "notes": "",
-  "type": "",
-  "level": "",
-  "pronunciation": "",
-  "language": "🇺🇸"
-}
-`,
-      },
+const model = genAI.getGenerativeModel({
+  model: "gemini-3.6-flash",
+  systemInstruction: SYSTEM_PROMPT,
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: responseSchema,
+  },
+});
 
 
-      {
-        role: "user",
-        content: word,
-      },
+async function analyzeWord(word) {
 
-    ],
+  const result = await model.generateContent(word);
 
-  });
+  const text = result.response.text();
 
-  console.log(response.choices[0].message.content);
+  console.log(text);
 
-  const result = JSON.parse(
-    response.choices[0].message.content
-  );
-
+  const parsed = JSON.parse(text);
 
   // sabit alanlar
-  result.language = "🇺🇸";
+  parsed.language = "🇺🇸";
 
-
-  return result;
+  return parsed;
 
 }
 

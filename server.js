@@ -21,14 +21,18 @@ app.post("/analyze", async (req, res) => {
 
     const result = await analyzeWord(word);
 
-await addWord({
-  word: word,
-  ...result,
-  source: source,
-  date: new Date().toISOString().split("T")[0],
-});
+    const saveResult = await addWord({
+      word: word,
+      ...result,
+      source: source,
+      date: new Date().toISOString().split("T")[0],
+    });
 
-    res.json(result);
+    res.json({
+      ...result,
+      isDuplicate: saveResult.isDuplicate,
+      count: saveResult.count,
+    });
 
   } catch (error) {
 

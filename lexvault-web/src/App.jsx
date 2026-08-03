@@ -6,57 +6,80 @@ function App() {
   const [word, setWord] = useState("");
   const [source, setSource] = useState("");
   const [result, setResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleAnalyze() {
     if (!word.trim()) return;
+    if (isLoading) return;
 
-    const response = await fetch(
-      "https://lexvault-48l2.onrender.com/analyze",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          word,
-          source,
-        }),
-      }
-    );
+    setIsLoading(true);
 
-    const data = await response.json();
-    setResult(data);
+    try {
+      const response = await fetch(
+        "https://lexvault-48l2.onrender.com/analyze",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            word,
+            source,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      setResult(data);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <>
-      <h1>LexVault</h1>
+    <div className="vault">
+      <header className="vault-header">
+        <h1 className="vault-mark">
+          lex<span>vault</span>
+        </h1>
+        <hr className="vault-rule" />
+        <p className="vault-tagline">kişisel kelime arşivin</p>
+      </header>
 
-      <input
-        type="text"
-        placeholder="Enter a word..."
-        value={word}
-        onChange={(e) => setWord(e.target.value)}
-      />
+      <div className="entry-card">
+        <div className="field">
+          <label className="field-label">kelime</label>
+          <input
+            type="text"
+            placeholder="bir kelime yaz..."
+            value={word}
+            onChange={(e) => setWord(e.target.value)}
+            disabled={isLoading}
+          />
+        </div>
 
-      <input
-        type="text"
-        placeholder="Source (optional)"
-        value={source}
-        onChange={(e) => setSource(e.target.value)}
-      />
+        <div className="field">
+          <label className="field-label">kaynak (opsiyonel)</label>
+          <input
+            type="text"
+            placeholder="nerede gördün?"
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+            disabled={isLoading}
+          />
+        </div>
 
-      <button onClick={handleAnalyze}>
-        Analyze
-      </button>
+        <button
+          className="submit-btn"
+          onClick={handleAnalyze}
+          disabled={isLoading}
+        >
+          {isLoading ? "arşivleniyor..." : "arşive ekle"}
+        </button>
+      </div>
 
-      {result && (
-        <WordCard
-          word={word}
-          result={result}
-        />
-      )}
-    </>
+      {result && <WordCard word={word} result={result} />}
+    </div>
   );
 }
 
