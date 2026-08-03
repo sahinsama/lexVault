@@ -16,7 +16,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://lexvault-48l2.onrender.com/analyze",
+            "http://localhost:3000/analyze",
         {
           method: "POST",
           headers: {

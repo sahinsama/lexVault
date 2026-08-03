@@ -1,10 +1,10 @@
 require("dotenv").config();
 
+const getDictionaryData = require("./src/dictionary");
 const express = require("express");
 const cors = require("cors");
 
-const analyzeWord = require("./src/ai");
-
+const translateWord = require("./src/translation");
 const addWord = require("./src/addWord");
 
 const app = express();
@@ -14,19 +14,27 @@ app.use(express.json());
 
 
 app.post("/analyze", async (req, res) => {
-
   try {
-
     const { word, source } = req.body;
 
-    const result = await analyzeWord(word);
+    const meaning = await translateWord(word);
+    const dictionary = await getDictionaryData(word);
+    console.log(dictionary);
 
-    const saveResult = await addWord({
-      word: word,
-      ...result,
-      source: source,
-      date: new Date().toISOString().split("T")[0],
-    });
+    const result = {
+        word,
+        meaning,
+        example: dictionary.example,
+        pronunciation: dictionary.pronunciation,
+        type: dictionary.type,
+        notes: "",
+        level: "",
+        source,
+        language: "🇹🇷",
+        date: new Date().toISOString().split("T")[0],
+    };
+
+    const saveResult = await addWord(result);
 
     res.json({
       ...result,
@@ -35,14 +43,12 @@ app.post("/analyze", async (req, res) => {
     });
 
   } catch (error) {
-
     console.error(error);
+
     res.status(500).json({
-      error: "Analysis failed"
+      error: "Translation failed"
     });
-
   }
-
 });
 
 

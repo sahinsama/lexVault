@@ -171,7 +171,7 @@ async function addWord(data) {
             rich_text: [
               {
                 text: {
-                  content: data.example,
+                  content: data.example || "",
                 },
               },
             ],
@@ -181,7 +181,7 @@ async function addWord(data) {
             rich_text: [
               {
                 text: {
-                  content: data.notes,
+                  content: data.notes || "",
                 },
               },
             ],
@@ -193,23 +193,30 @@ async function addWord(data) {
               : [],
           },
 
-          Type: {
-            select: {
-              name: data.type,
-            },
-          },
-
+          Type: data.type
+            ? {
+                select: {
+                  name: data.type,
+                },
+              }
+            : {
+                select: null,
+              },
           Language: {
             select: {
               name: data.language || "🇺🇸",
             },
           },
 
-          Level: {
-            select: {
-              name: data.level,
-            },
-          },
+          Level: data.level
+            ? {
+                select: {
+                  name: data.level,
+                },
+              }
+            : {
+                select: null,
+              },
 
           Pronunciation: {
             rich_text: [
