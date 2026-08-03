@@ -117,6 +117,28 @@ async function addWord(data) {
 
       return { isDuplicate: true, count: newCount };
     }
+    
+        const database = await withRetry(() =>
+      notion.databases.retrieve({
+        database_id: process.env.NOTION_DATABASE_ID,
+      })
+    );
+
+    const sourceOptions = database.properties.Source.multi_select.options;
+
+    const normalize = (s) =>
+      s.trim().toLowerCase().replace(/\s+/g, " ");
+
+    const matched = data.source
+      ? sourceOptions.find(
+          (option) =>
+            normalize(option.name) === normalize(data.source)
+        )
+      : null;
+
+    const finalSource = matched
+      ? matched.name
+  : data.source;
 
     await withRetry(() =>
       notion.pages.create({
@@ -221,21 +243,4 @@ async function addWord(data) {
     return { isDuplicate: false, count: 1, error: true };
   }
 }
-
-const db = await notion.databases.retrieve({
-  database_id: DATABASE_ID,
-});
-
-const sourceOptions = db.properties.Source.multi_select.options;
-
-const normalize = (s) =>
-  s.trim().toLowerCase().replace(/\s+/g, " ");
-
-const matched = sourceOptions.find(
-  (option) => normalize(option.name) === normalize(source)
-);
-
-const finalSource = matched ? matched.name : source;
-
-
 module.exports = addWord;
