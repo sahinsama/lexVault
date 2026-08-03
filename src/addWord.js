@@ -166,8 +166,8 @@ async function addWord(data) {
           },
 
           Source: {
-            multi_select: data.source
-              ? [{ name: data.source }]
+            multi_select: finalSource
+              ? [{ name: finalSource }]
               : [],
           },
 
@@ -221,5 +221,21 @@ async function addWord(data) {
     return { isDuplicate: false, count: 1, error: true };
   }
 }
+
+const db = await notion.databases.retrieve({
+  database_id: DATABASE_ID,
+});
+
+const sourceOptions = db.properties.Source.multi_select.options;
+
+const normalize = (s) =>
+  s.trim().toLowerCase().replace(/\s+/g, " ");
+
+const matched = sourceOptions.find(
+  (option) => normalize(option.name) === normalize(source)
+);
+
+const finalSource = matched ? matched.name : source;
+
 
 module.exports = addWord;
