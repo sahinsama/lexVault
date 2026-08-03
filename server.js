@@ -30,7 +30,7 @@ app.post("/analyze", async (req, res) => {
         notes: "",
         level: "",
         source,
-        language: "🇹🇷",
+        language: "🇺🇸",
         date: new Date().toISOString().split("T")[0],
     };
 

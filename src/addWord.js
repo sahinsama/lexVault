@@ -118,13 +118,16 @@ async function addWord(data) {
       return { isDuplicate: true, count: newCount };
     }
     
-        const database = await withRetry(() =>
-      notion.databases.retrieve({
-        database_id: process.env.NOTION_DATABASE_ID,
-      })
-    );
+        const dataSourceId = await getDataSourceId();
 
-    const sourceOptions = database.properties.Source.multi_select.options;
+const dataSource = await withRetry(() =>
+  notion.dataSources.retrieve({
+    data_source_id: dataSourceId,
+  })
+);
+
+const sourceOptions =
+  dataSource.properties.Source.multi_select.options;
 
     const normalize = (s) =>
       s.trim().toLowerCase().replace(/\s+/g, " ");
