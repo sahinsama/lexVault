@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import WordCard from "./components/WordCard";
 import WordList from "./components/WordList";
+import API_URL from "./config/api";
 
 function App() {
   const [word, setWord] = useState("");
@@ -17,22 +18,25 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "lexvault-48l2.onrender.com",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            word,
-            source,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/analyze`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          word,
+          source,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
 
       const data = await response.json();
       setResult(data);
+    } catch (error) {
+      console.error("Analyze Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -55,6 +59,7 @@ function App() {
         >
           ekle
         </button>
+
         <button
           className={view === "list" ? "nav-btn active" : "nav-btn"}
           onClick={() => setView("list")}
@@ -68,6 +73,7 @@ function App() {
           <div className="entry-card">
             <div className="field">
               <label className="field-label">kelime</label>
+
               <input
                 type="text"
                 placeholder="bir kelime yaz..."
@@ -78,7 +84,10 @@ function App() {
             </div>
 
             <div className="field">
-              <label className="field-label">kaynak (opsiyonel)</label>
+              <label className="field-label">
+                kaynak (opsiyonel)
+              </label>
+
               <input
                 type="text"
                 placeholder="nerede gördün?"
@@ -93,11 +102,18 @@ function App() {
               onClick={handleAnalyze}
               disabled={isLoading}
             >
-              {isLoading ? "arşivleniyor..." : "arşive ekle"}
+              {isLoading
+                ? "arşivleniyor..."
+                : "arşive ekle"}
             </button>
           </div>
 
-          {result && <WordCard word={word} result={result} />}
+          {result && (
+            <WordCard
+              word={word}
+              result={result}
+            />
+          )}
         </>
       ) : (
         <WordList />

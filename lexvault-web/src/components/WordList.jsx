@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import WordCard from "./WordCard";
+import API_URL from "../config/api";
+
 
 function WordList() {
   const [words, setWords] = useState([]);
@@ -8,12 +10,24 @@ function WordList() {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch("lexvault-48l2.onrender.com")
-      .then((res) => res.json())
-      .then((data) => {
+    async function loadWords() {
+      try {
+        const response = await fetch(`${API_URL}/words`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
         setWords(data);
+      } catch (error) {
+        console.error("WordList Error:", error);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    }
+
+    loadWords();
   }, []);
 
   useEffect(() => {
@@ -54,15 +68,27 @@ function WordList() {
           <div className="list-row-head">
             <span className="list-row-word">{w.word}</span>
             <span className="result-ipa">{w.pronunciation}</span>
+
             {w.level && <span className="tag">{w.level}</span>}
-            {w.count > 1 && <span className="tag tag-count">×{w.count}</span>}
+
+            {w.count > 1 && (
+              <span className="tag tag-count">
+                ×{w.count}
+              </span>
+            )}
           </div>
-          <p className="list-row-meaning">{w.meaning}</p>
+
+          <p className="list-row-meaning">
+            {w.meaning}
+          </p>
         </button>
       ))}
 
       {selected && (
-        <div className="modal-overlay" onClick={() => setSelected(null)}>
+        <div
+          className="modal-overlay"
+          onClick={() => setSelected(null)}
+        >
           <div
             className="modal-shell"
             onClick={(e) => e.stopPropagation()}
