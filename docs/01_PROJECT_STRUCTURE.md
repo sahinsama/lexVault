@@ -37,7 +37,7 @@ LexVault
 
 Main backend entry point.
 
-Creates the Express server, configures middleware, exposes API endpoints, and connects frontend requests with backend services.
+Creates the Express server, exposes the API endpoint, coordinates translation, dictionary lookup, and storage operations.
 
 ---
 
@@ -47,15 +47,19 @@ Frontend
 
 ↓
 
-POST `/analyze`
+POST /analyze
 
 ↓
 
-`src/ai.js`
+src/translation.js
 
 ↓
 
-`src/addWord.js`
+src/dictionary.js
+
+↓
+
+src/addWord.js
 
 ↓
 
@@ -67,8 +71,9 @@ Response
 
 **Uses**
 
-- `src/ai.js`
-- `src/addWord.js`
+- src/translation.js
+- src/dictionary.js
+- src/addWord.js
 
 **Used By**
 
@@ -89,34 +94,84 @@ Response
 
 ### Purpose
 
-Handles all AI-powered word analysis.
+Reserved for future AI-powered features such as sentence generation, explanations, quizzes, and learning assistance.
 
-Receives an English word or phrase, sends it to Gemini with a carefully designed system prompt, validates the response using a JSON schema, and returns structured vocabulary data to the backend.
+---
+
+### Flow
+
+---
+
+### Dependencies
+
+**Uses**
+
+
+**Used By**
+
+### Notes
+
+- Currently unused.
+- Translation is handled by DeepL.
+- Dictionary data is retrieved through Dictionary API.
+
+
+
+## src/translation.js
+
+### Purpose 
+
+Handles English-to-Turkish translation using the DeepL API.
+
+### Flow
+
+Word
+↓
+DeepL API
+↓
+Turkish Translation
+↓
+server.js
+
+### Dependencies 
+
+**Uses**
+
+- dotenv
+- axios
+
+**Used**
+
+- sever.js
+
+### Notes
+
+- Responsible only for translation.
+- Uses DeepL Free API.
+- Always translates from English to Turkish.
+- Returns only the translated meaning.
+
+
+
+## src/dictionary.js
+
+### Purpose
+
+Retrieves linguistic information from the Free Dictionary API.
 
 ---
 
 ### Flow
 
 Word
-
 ↓
-
-Gemini API
-
+Dictionary API
 ↓
-
-SYSTEM_PROMPT
-
+Pronunciation
+Type
+Definition
+Example
 ↓
-
-JSON Schema Validation
-
-↓
-
-Parsed Response
-
-↓
-
 server.js
 
 ---
@@ -125,30 +180,18 @@ server.js
 
 **Uses**
 
-- dotenv
-- @google/generative-ai
+- axios
 
 **Used By**
 
 - server.js
 
----
-
 ### Notes
 
-- Responsible only for AI analysis.
-- Does not communicate with Notion or any database.
-- Returns structured JSON containing:
-  - meaning
-  - example
-  - notes
-  - type
-  - level
-  - pronunciation
-  - language
-- Uses a strict response schema to ensure consistent output.
-- Uses a custom system prompt optimized for Turkish English learners.
-- Always returns `🇺🇸` as the language value.
+- Retrieves pronunciation, part of speech, definition, and example.
+- Searches across all available meanings and definitions.
+- Returns empty strings for missing fields.
+- Does not perform translation.
 
 
 
@@ -214,6 +257,7 @@ Return Status
 - Normalizes source names before saving to avoid duplicate multi-select values.
 - Includes retry logic for temporary network failures.
 - Caches the Notion Data Source ID to reduce unnecessary API requests.
+- Stores vocabulary data received from translation and dictionary services.
 
 
 

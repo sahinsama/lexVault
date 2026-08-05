@@ -1,11 +1,10 @@
 require("dotenv").config();
 
-const getDictionaryData = require("./src/dictionary");
 const express = require("express");
 const cors = require("cors");
 
-const translateWord = require("./src/translation");
-const addWord = require("./src/addWord");
+const analyzeWord = require("./src/analyze");
+const { addWord, getAllWords } = require("./src/storage");
 
 const app = express();
 
@@ -14,27 +13,19 @@ app.use(express.json());
 
 
 app.post("/analyze", async (req, res) => {
+
   try {
+
     const { word, source } = req.body;
 
-    const meaning = await translateWord(word);
-    const dictionary = await getDictionaryData(word);
-    console.log(dictionary);
+    const result = await analyzeWord(word);
 
-    const result = {
-        word,
-        meaning,
-        example: dictionary.example,
-        pronunciation: dictionary.pronunciation,
-        type: dictionary.type,
-        notes: "",
-        level: "",
-        source,
-        language: "🇺🇸",
-        date: new Date().toISOString().split("T")[0],
-    };
-
-    const saveResult = await addWord(result);
+    const saveResult = await addWord({
+      word: word,
+      ...result,
+      source: source,
+      date: new Date().toISOString().split("T")[0],
+    });
 
     res.json({
       ...result,
@@ -43,12 +34,33 @@ app.post("/analyze", async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
 
+    console.error(error);
     res.status(500).json({
-      error: "Translation failed"
+      error: "Analysis failed"
     });
+
   }
+
+});
+
+
+app.get("/words", async (req, res) => {
+
+  try {
+
+    const words = await getAllWords();
+    res.json(words);
+
+  } catch (error) {
+
+    console.error(error);
+    res.status(500).json({
+      error: "Failed to fetch words"
+    });
+
+  }
+
 });
 
 

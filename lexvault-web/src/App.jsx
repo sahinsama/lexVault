@@ -1,12 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 import WordCard from "./components/WordCard";
+import WordList from "./components/WordList";
 
 function App() {
   const [word, setWord] = useState("");
   const [source, setSource] = useState("");
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [view, setView] = useState("add");
 
   async function handleAnalyze() {
     if (!word.trim()) return;
@@ -16,7 +18,7 @@ function App() {
 
     try {
       const response = await fetch(
-            "http://localhost:3000/analyze",
+        "lexvault-48l2.onrender.com",
         {
           method: "POST",
           headers: {
@@ -46,39 +48,60 @@ function App() {
         <p className="vault-tagline">kişisel kelime arşivin</p>
       </header>
 
-      <div className="entry-card">
-        <div className="field">
-          <label className="field-label">kelime</label>
-          <input
-            type="text"
-            placeholder="bir kelime yaz..."
-            value={word}
-            onChange={(e) => setWord(e.target.value)}
-            disabled={isLoading}
-          />
-        </div>
-
-        <div className="field">
-          <label className="field-label">kaynak (opsiyonel)</label>
-          <input
-            type="text"
-            placeholder="nerede gördün?"
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-            disabled={isLoading}
-          />
-        </div>
-
+      <div className="vault-nav">
         <button
-          className="submit-btn"
-          onClick={handleAnalyze}
-          disabled={isLoading}
+          className={view === "add" ? "nav-btn active" : "nav-btn"}
+          onClick={() => setView("add")}
         >
-          {isLoading ? "arşivleniyor..." : "arşive ekle"}
+          ekle
+        </button>
+        <button
+          className={view === "list" ? "nav-btn active" : "nav-btn"}
+          onClick={() => setView("list")}
+        >
+          kelimelerim
         </button>
       </div>
 
-      {result && <WordCard word={word} result={result} />}
+      {view === "add" ? (
+        <>
+          <div className="entry-card">
+            <div className="field">
+              <label className="field-label">kelime</label>
+              <input
+                type="text"
+                placeholder="bir kelime yaz..."
+                value={word}
+                onChange={(e) => setWord(e.target.value)}
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="field">
+              <label className="field-label">kaynak (opsiyonel)</label>
+              <input
+                type="text"
+                placeholder="nerede gördün?"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+                disabled={isLoading}
+              />
+            </div>
+
+            <button
+              className="submit-btn"
+              onClick={handleAnalyze}
+              disabled={isLoading}
+            >
+              {isLoading ? "arşivleniyor..." : "arşive ekle"}
+            </button>
+          </div>
+
+          {result && <WordCard word={word} result={result} />}
+        </>
+      ) : (
+        <WordList />
+      )}
     </div>
   );
 }
