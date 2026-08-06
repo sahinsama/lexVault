@@ -21,8 +21,8 @@ function Home() {
           merakını yakala.
         </h1>
         <p className="hero-sub">
-          film izlerken, kitap okurken, bir şeye rastlarken karşına çıkan
-          kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
+          film izlerken, kitap okurken, herhangi bir yerde karşına çıkan
+          bir kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
           meraklı kal.
         </p>
         <Link to="/app" className="hero-cta">
@@ -39,7 +39,7 @@ function Home() {
           </div>
           <div className="cycle-step">
             <span className="cycle-num">02</span>
-            <p>meraklanırsın, çeviriye bakarsın</p>
+            <p>meraklanırsın, çeviriden anlamına bakarsın</p>
           </div>
           <div className="cycle-step">
             <span className="cycle-num">03</span>
@@ -65,7 +65,7 @@ function Home() {
             <span className="principle-tag">hatırla</span>
             <p>
               arşivin büyüdükçe, geçmişte kaydettiğin kelimeler karşına
-              tekrar çıkar — unutmadan önce.
+              tekrar çıkar.
             </p>
           </div>
           <div className="principle-card">
