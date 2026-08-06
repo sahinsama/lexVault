@@ -6,8 +6,8 @@ import Vault from "./pages/vault.jsx";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/app" element={<Vault />} />
+      <Route path="/" element={<home />} />
+      <Route path="/app" element={<vault />} />
     </Routes>
   );
 }
