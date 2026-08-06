@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import API_URL from "../config/api.js";
 import WordCard from "../components/wordcard.jsx";
 import WordList from "../components/wordlist.jsx";
+import { useEffect } from "react";
 
 function Vault() {
   const [word, setWord] = useState("");
@@ -10,6 +11,10 @@ function Vault() {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState("add");
+
+  useEffect(() => {
+  document.title = "LexVault - Add";
+}, []);
 
   async function handleAnalyze() {
     if (!word.trim()) return;

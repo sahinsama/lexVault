@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import "./home.css";
+import { useEffect } from "react";
 
 function Home() {
+
+  useEffect(() => {
+    document.title = "LexVault - Home";
+  }, []);
+  
   return (
     <div className="home">
       <header className="home-nav">
