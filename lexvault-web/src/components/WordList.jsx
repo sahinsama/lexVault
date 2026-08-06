@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import API_URL from "../config/api.js";
-import WordCard from "./WordCard";
+import WordCard from "./wordcard.jsx";
 
 function WordList() {
   const [words, setWords] = useState([]);

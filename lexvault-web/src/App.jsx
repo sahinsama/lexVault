@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import Home from "./pages/Home.jsx";
-import Vault from "./pages/Vault.jsx";
+import Home from "./pages/home.jsx";
+import Vault from "./pages/vault.jsx";
 
 function App() {
   return (
