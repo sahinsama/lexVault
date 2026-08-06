@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import "./app.css";
 import Home from "./pages/home.jsx";
 import Vault from "./pages/vault.jsx";
 
