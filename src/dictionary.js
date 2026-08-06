@@ -3,7 +3,8 @@ const axios = require("axios");
 async function getDictionaryData(word) {
   try {
     const response = await axios.get(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
+      { timeout: 5000 }
     );
 
     const data = response.data[0];

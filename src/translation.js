@@ -16,6 +16,7 @@ async function translateWord(word) {
           Authorization: `DeepL-Auth-Key ${process.env.DEEPL_API_KEY}`,
           "Content-Type": "application/json",
         },
+        timeout: 5000,
       }
     );
 

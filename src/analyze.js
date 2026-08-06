@@ -12,27 +12,49 @@ function isQuotaError(error) {
 }
 
 
-// gemini'yi dener, limit/hata durumunda dictionary + deepl kombinasyonuna düşer.
-// böylece limit dolsa bile site tamamen işlevsiz kalmıyor, sadece kalite bir tık düşüyor.
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} zaman aşımı (${ms}ms)`)), ms)
+    ),
+  ]);
+}
+
+
+// gemini'yi dener, limit/hata/zaman aşımı durumunda dictionary + deepl'e düşer.
 async function analyzeWord(word) {
 
+  const t0 = Date.now();
+
   try {
-    return await analyzeWordWithAI(word);
+    const result = await withTimeout(
+      analyzeWordWithAI(word),
+      11000,
+      "Gemini"
+    );
+
+    console.log(`⏱️  Gemini: ${Date.now() - t0}ms`);
+    return result;
 
   } catch (error) {
 
-    if (!isQuotaError(error)) {
-      // quota dışı bir hataysa (network vs.) yine de fallback'e düş,
-      // ama logla ki neyin patladığını görebilelim
-      console.warn("⚠️  AI analiz hatası, fallback'e geçiliyor:", error.message);
-    } else {
+    console.log(`⏱️  Gemini başarısız oldu (${Date.now() - t0}ms):`, error.message);
+
+    if (isQuotaError(error)) {
       console.warn("⚠️  AI günlük limiti doldu, fallback kullanılıyor.");
+    } else {
+      console.warn("⚠️  AI analiz hatası, fallback'e geçiliyor:", error.message);
     }
+
+    const t1 = Date.now();
 
     const [translation, dictData] = await Promise.all([
       translateWord(word).catch(() => word),
       getDictionaryData(word),
     ]);
+
+    console.log(`⏱️  fallback (translate+dictionary): ${Date.now() - t1}ms`);
 
     return {
       meaning: translation,

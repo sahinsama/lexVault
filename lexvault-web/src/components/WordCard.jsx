@@ -36,6 +36,37 @@ function WordCard({ word, result }) {
           <p>{result.notes}</p>
         </div>
       )}
+
+      {result.source && result.source.length > 0 && (
+        <div className="result-section">
+          <label className="field-label">kaynak</label>
+          <p>
+            {Array.isArray(result.source)
+              ? result.source.join(" · ")
+              : result.source}
+          </p>
+        </div>
+      )}
+
+      {result.firstSeen && (
+        <div className="result-section">
+          <label className="field-label">
+            {count > 1 ? "ilk / son görülme" : "eklendi"}
+          </label>
+          <p>
+            {count > 1
+              ? `${result.firstSeen} → ${result.date}`
+              : result.firstSeen}
+          </p>
+        </div>
+      )}
+
+      {result.history && result.history.length > 1 && (
+        <div className="result-section">
+          <label className="field-label">tüm görülmeler ({result.history.length})</label>
+          <p>{result.history.join(" · ")}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -19,9 +19,22 @@ async function addWord(data) {
 
     const newCount = (existing.times || 1) + 1;
 
+    const existingSources = existing.source || [];
+    const newSources =
+      data.source && !existingSources.includes(data.source)
+        ? [...existingSources, data.source]
+        : existingSources;
+
+    const newHistory = [...(existing.history || []), data.date];
+
     const { error: updateError } = await supabase
       .from("words")
-      .update({ times: newCount, date: data.date })
+      .update({
+        times: newCount,
+        date: data.date,
+        source: newSources,
+        history: newHistory,
+      })
       .eq("id", existing.id);
 
     if (updateError) {
@@ -49,6 +62,8 @@ async function addWord(data) {
     language: data.language || "🇺🇸",
     times: 1,
     date: data.date,
+    first_seen: data.date,
+    history: [data.date],
   });
 
   if (insertError) {
@@ -86,6 +101,8 @@ async function getAllWords() {
     level: row.level,
     source: row.source,
     date: row.date,
+    firstSeen: row.first_seen,
+    history: row.history || [],
     count: row.times,
   }));
 }
