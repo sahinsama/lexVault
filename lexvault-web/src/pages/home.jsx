@@ -21,7 +21,7 @@ function Home() {
           merakını yakala.
         </h1>
         <p className="hero-sub">
-          film izlerken, kitap okurken, herhangi bir yerde karşına çıkan
+          film izlerken, kitap okurken, bir şeye rastlarken karşına çıkan
           kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
           meraklı kal.
         </p>

@@ -37,12 +37,6 @@
   border-color: var(--brass);
 }
 
-.vault-mark-link {
-  text-decoration: none;
-}
-
-/* --- hero --- */
-
 .hero {
   text-align: center;
   margin-bottom: 96px;
@@ -91,8 +85,6 @@
 .hero-cta:hover {
   background: var(--brass-bright);
 }
-
-/* --- döngü bölümü --- */
 
 .section-label {
   font-family: "IBM Plex Mono", monospace;
@@ -148,8 +140,6 @@
   margin: 0;
 }
 
-/* --- prensipler --- */
-
 .principles {
   margin-bottom: 96px;
 }
@@ -186,8 +176,6 @@
   line-height: 1.55;
   color: var(--paper-dim);
 }
-
-/* --- footer --- */
 
 .home-footer {
   text-align: center;

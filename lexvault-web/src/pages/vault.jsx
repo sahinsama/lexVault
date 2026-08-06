@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../config/api.js";
-import WordCard from "../components/WordCard";
-import WordList from "../components/WordList";
+import WordCard from "../components/wordcard.jsx";
+import WordList from "../components/wordlist.jsx";
 
 function Vault() {
   const [word, setWord] = useState("");

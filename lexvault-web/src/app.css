@@ -53,6 +53,10 @@ body {
   color: var(--brass);
 }
 
+.vault-mark-link {
+  text-decoration: none;
+}
+
 .vault-rule {
   width: 48px;
   height: 2px;
