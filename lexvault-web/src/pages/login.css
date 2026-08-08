@@ -1,0 +1,135 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  background: var(--ink-900);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+}
+
+.login-card .vault-mark.small {
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.login-tab {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.login-tab.active {
+  color: var(--brass);
+  border-color: var(--brass);
+}
+
+.field select {
+  width: 100%;
+  background: var(--ink-950);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 15px;
+  color: var(--paper);
+}
+
+.field select:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.login-error {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  color: var(--stamp-red);
+  margin: 0 0 16px;
+}
+
+.login-info {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--brass);
+  margin: 0 0 16px;
+}
+
+.login-forgot {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.login-forgot:hover {
+  color: var(--brass);
+}
+
+.google-btn {
+  width: 100%;
+  background: var(--ink-950);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px;
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--paper);
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color 0.15s ease;
+}
+
+.google-btn:hover:not(:disabled) {
+  border-color: var(--brass);
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.login-divider span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+}

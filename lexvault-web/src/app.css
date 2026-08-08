@@ -40,6 +40,13 @@ body {
   margin-bottom: 40px;
 }
 
+.vault-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
 .vault-mark {
   font-family: "Fraunces", serif;
   font-weight: 700;
@@ -502,4 +509,95 @@ body {
   .modal-overlay {
     animation: none;
   }
+}
+
+/* --- hoş geldin banner --- */
+
+.welcome-banner {
+  background: var(--ink-900);
+  border: 1px solid var(--brass);
+  border-radius: 3px;
+  padding: 10px 16px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--brass);
+  text-align: center;
+  margin-bottom: 20px;
+  animation: fade-in 0.2s ease;
+}
+
+/* --- profil menüsü --- */
+
+.profile-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ink-800);
+  border: 1px solid var(--border);
+  color: var(--brass);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.profile-avatar:hover {
+  border-color: var(--brass);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background: var(--ink-900);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  min-width: 180px;
+  z-index: 10;
+  animation: fade-in 0.15s ease;
+}
+
+.profile-email {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+
+.profile-username {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--paper);
+  margin: 0 0 2px;
+}
+
+.profile-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--paper);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  padding: 8px 4px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.profile-item:hover {
+  background: var(--ink-800);
+  color: var(--stamp-red);
 }

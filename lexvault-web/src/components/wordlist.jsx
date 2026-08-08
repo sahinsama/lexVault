@@ -1,20 +1,40 @@
 import { useEffect, useState } from "react";
 import API_URL from "../config/api.js";
+import { getAccessToken } from "../config/supabase.js";
 import WordCard from "./wordcard.jsx";
 
 function WordList() {
   const [words, setWords] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/words`)
-      .then((res) => res.json())
-      .then((data) => {
+    async function load() {
+      try {
+        const token = await getAccessToken();
+
+        const res = await fetch(`${API_URL}/words`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) throw new Error("İstek başarısız");
+
+        const data = await res.json();
+
+        if (!Array.isArray(data)) throw new Error("Beklenmeyen yanıt");
+
         setWords(data);
+      } catch (err) {
+        console.error("kelime listesi yüklenemedi:", err.message);
+        setLoadError(true);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    }
+
+    load();
   }, []);
 
   useEffect(() => {
@@ -34,6 +54,14 @@ function WordList() {
     return <p className="list-status">arşiv açılıyor...</p>;
   }
 
+  if (loadError) {
+    return (
+      <p className="list-status">
+        arşiv yüklenemedi, sayfayı yenileyip tekrar dene.
+      </p>
+    );
+  }
+
   return (
     <div className="word-list">
       <input
@@ -45,6 +73,16 @@ function WordList() {
       />
 
       <p className="list-count">{filtered.length} kelime</p>
+
+      {words.length === 0 && (
+        <p className="list-status">
+          henüz kelime yok — "ekle" sekmesinden ilk kelimeni kaydet.
+        </p>
+      )}
+
+      {words.length > 0 && filtered.length === 0 && (
+        <p className="list-status">"{search}" ile eşleşen kelime yok.</p>
+      )}
 
       {filtered.map((w, i) => (
         <button

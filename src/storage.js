@@ -2,11 +2,12 @@ const supabase = require("./supabase");
 const { syncToNotion } = require("./notionSync");
 
 
-async function addWord(data) {
+async function addWord(data, userId) {
 
   const { data: existing, error: findError } = await supabase
     .from("words")
     .select("*")
+    .eq("user_id", userId)
     .ilike("word", data.word)
     .maybeSingle();
 
@@ -44,8 +45,9 @@ async function addWord(data) {
 
     console.log(`🔁 ${data.word} zaten vardı, x${newCount} yapıldı.`);
 
-    // notion senkronunu bekletmeden arka planda yürüt
-    syncToNotion(data, newCount);
+    if (userId === process.env.OWNER_USER_ID) {
+      syncToNotion(data, newCount);
+    }
 
     return { isDuplicate: true, count: newCount };
   }
@@ -64,6 +66,7 @@ async function addWord(data) {
     date: data.date,
     first_seen: data.date,
     history: [data.date],
+    user_id: userId,
   });
 
   if (insertError) {
@@ -73,17 +76,20 @@ async function addWord(data) {
 
   console.log(`✅ ${data.word} eklendi!`);
 
-  syncToNotion(data, 1);
+  if (userId === process.env.OWNER_USER_ID) {
+    syncToNotion(data, 1);
+  }
 
   return { isDuplicate: false, count: 1 };
 }
 
 
-async function getAllWords() {
+async function getAllWords(userId) {
 
   const { data, error } = await supabase
     .from("words")
     .select("*")
+    .eq("user_id", userId)
     .order("date", { ascending: false });
 
   if (error) {

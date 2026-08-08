@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const analyzeWord = require("./src/analyze");
 const { addWord, getAllWords } = require("./src/storage");
+const requireAuth = require("./src/auth");
 
 const app = express();
 
@@ -12,7 +13,12 @@ app.use(cors());
 app.use(express.json());
 
 
-app.post("/analyze", async (req, res) => {
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+
+app.post("/analyze", requireAuth, async (req, res) => {
 
   try {
 
@@ -20,12 +26,15 @@ app.post("/analyze", async (req, res) => {
 
     const result = await analyzeWord(word);
 
-    const saveResult = await addWord({
-      word: word,
-      ...result,
-      source: source,
-      date: new Date().toISOString().split("T")[0],
-    });
+    const saveResult = await addWord(
+      {
+        word: word,
+        ...result,
+        source: source,
+        date: new Date().toISOString().split("T")[0],
+      },
+      req.userId
+    );
 
     res.json({
       ...result,
@@ -45,11 +54,11 @@ app.post("/analyze", async (req, res) => {
 });
 
 
-app.get("/words", async (req, res) => {
+app.get("/words", requireAuth, async (req, res) => {
 
   try {
 
-    const words = await getAllWords();
+    const words = await getAllWords(req.userId);
     res.json(words);
 
   } catch (error) {

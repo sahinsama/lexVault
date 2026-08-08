@@ -1,21 +1,19 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/authcontext.jsx";
 import "./home.css";
-import { useEffect } from "react";
 
 function Home() {
+  const { user } = useAuth();
+  const ctaTarget = user ? "/app" : "/login";
 
-  useEffect(() => {
-    document.title = "LexVault - Home";
-  }, []);
-  
   return (
     <div className="home">
       <header className="home-nav">
         <span className="vault-mark small">
           lex<span>vault</span>
         </span>
-        <Link to="/app" className="nav-link">
-          arşive git →
+        <Link to={ctaTarget} className="nav-link">
+          {user ? "arşive git →" : "giriş yap →"}
         </Link>
       </header>
 
@@ -27,11 +25,11 @@ function Home() {
           merakını yakala.
         </h1>
         <p className="hero-sub">
-          film izlerken, kitap okurken, herhangi bir yerde karşına çıkan
-          bir kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
+          film izlerken, kitap okurken, bir şeye rastlarken karşına çıkan
+          kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
           meraklı kal.
         </p>
-        <Link to="/app" className="hero-cta">
+        <Link to={ctaTarget} className="hero-cta">
           arşivlemeye başla
         </Link>
       </section>
@@ -45,7 +43,7 @@ function Home() {
           </div>
           <div className="cycle-step">
             <span className="cycle-num">02</span>
-            <p>meraklanırsın, çeviriden anlamına bakarsın</p>
+            <p>meraklanırsın, çeviriye bakarsın</p>
           </div>
           <div className="cycle-step">
             <span className="cycle-num">03</span>
@@ -71,7 +69,7 @@ function Home() {
             <span className="principle-tag">hatırla</span>
             <p>
               arşivin büyüdükçe, geçmişte kaydettiğin kelimeler karşına
-              tekrar çıkar.
+              tekrar çıkar — unutmadan önce.
             </p>
           </div>
           <div className="principle-card">
@@ -86,7 +84,7 @@ function Home() {
 
       <footer className="home-footer">
         <p>gerçek hayat zaten en iyi müfredat. biz sadece unutmanı önlüyoruz.</p>
-        <Link to="/app" className="hero-cta">
+        <Link to={ctaTarget} className="hero-cta">
           hemen dene
         </Link>
       </footer>
