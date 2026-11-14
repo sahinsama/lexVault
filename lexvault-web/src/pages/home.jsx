@@ -25,8 +25,8 @@ function Home() {
           merakını yakala.
         </h1>
         <p className="hero-sub">
-          film izlerken, kitap okurken, bir şeye rastlarken karşına çıkan
-          kelimeyi anında kaydet. gerisini biz hallederiz — sen sadece
+          film izlerken, kitap okurken veya herhangi bir yerde bir şeye rastladığında karşına çıkan
+          kelimeyi anında kaydet. gerisini biz hallederiz, sen sadece
           meraklı kal.
         </p>
         <Link to={ctaTarget} className="hero-cta">
@@ -61,22 +61,21 @@ function Home() {
           <div className="principle-card">
             <span className="principle-tag">yakala</span>
             <p>
-              kelimeyi gördüğün an, saniyeler içinde kaydet — düzenlemek
+              kelimeyi gördüğün an, saniyeler içinde kaydet. düzenlemek
               için uğraşma, kaydetmek yeter.
             </p>
           </div>
           <div className="principle-card">
             <span className="principle-tag">hatırla</span>
             <p>
-              arşivin büyüdükçe, geçmişte kaydettiğin kelimeler karşına
-              tekrar çıkar — unutmadan önce.
+              arşivin büyüdükçe, geçmişte kaydettiğin kelimeler karşına tekrar çıkar. böylelikle hafızanı tazelersin.
             </p>
           </div>
           <div className="principle-card">
-            <span className="principle-tag">ustalaş</span>
+            <span className="principle-tag">içselleştir</span>
             <p>
               her kelime bir bağlamla, bir kaynakla, bir tarihle senin
-              hayatına bağlı kalır — soyut bir liste değil.
+              hayatına bağlanır. soyut bir kelime listesinden farklı.
             </p>
           </div>
         </div>
