@@ -13,6 +13,25 @@ const LANGUAGES = [
   { code: "ja", label: "日本語" },
 ];
 
+export function PasswordInput(props) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="password-field">
+      <input {...props} type={visible ? "text" : "password"} />
+      <button
+        type="button"
+        className="password-toggle"
+        onClick={() => setVisible((v) => !v)}
+        aria-label={visible ? "şifreyi gizle" : "şifreyi göster"}
+        tabIndex={-1}
+      >
+        {visible ? "gizle" : "göster"}
+      </button>
+    </div>
+  );
+}
+
 function Login() {
   const [mode, setMode] = useState("signin");
   const [email, setEmail] = useState("");
@@ -140,8 +159,7 @@ function Login() {
           {mode !== "forgot" && (
             <div className="field">
               <label className="field-label">şifre</label>
-              <input
-                type="password"
+              <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
