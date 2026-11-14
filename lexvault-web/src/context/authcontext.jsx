@@ -129,6 +129,31 @@ export function AuthProvider({ children }) {
     await loadProfile(user);
   }
 
+  async function updateUsername(username) {
+    if (!user) throw new Error("giriş yapmamışsın");
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ username })
+      .eq("id", user.id);
+
+    if (error) {
+      // profiles.username unique olduğu için çakışma 23505 döner
+      if (error.code === "23505") {
+        throw new Error("bu kullanıcı adı alınmış");
+      }
+      throw error;
+    }
+
+    await loadProfile(user);
+  }
+
+  async function updatePassword(password) {
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) throw error;
+  }
+
   async function signOut() {
     await supabase.auth.signOut();
   }
@@ -143,6 +168,8 @@ export function AuthProvider({ children }) {
         signIn,
         signInWithGoogle,
         completeProfile,
+        updateUsername,
+        updatePassword,
         signOut,
       }}
     >

@@ -25,6 +25,11 @@ function ProfileMenu() {
     navigate("/");
   }
 
+  function handleSettings() {
+    setIsOpen(false);
+    navigate("/settings");
+  }
+
   const displayName = profile?.username || user?.email;
   const initial = displayName ? displayName[0].toUpperCase() : "?";
 
@@ -44,6 +49,9 @@ function ProfileMenu() {
             <p className="profile-username">{profile.username}</p>
           )}
           {user?.email && <p className="profile-email">{user.email}</p>}
+          <button className="profile-item" onClick={handleSettings}>
+            ayarlar
+          </button>
           <button className="profile-item" onClick={handleSignOut}>
             çıkış yap
           </button>

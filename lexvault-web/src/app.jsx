@@ -7,6 +7,7 @@ import Login from "./pages/login.jsx";
 import ResetPassword from "./pages/resetpassword.jsx";
 import CompleteProfile from "./pages/completeprofile.jsx";
 import Vault from "./pages/vault.jsx";
+import Settings from "./pages/settings.jsx";
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Vault />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
             </ProtectedRoute>
           }
         />
